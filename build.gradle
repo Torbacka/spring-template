@@ -1,4 +1,5 @@
 plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.2.50"
     id 'org.springframework.boot' version '2.0.3.RELEASE'
 }
 
@@ -11,19 +12,51 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 defaultTasks 'run'
-
+project.ext {
+    kotlin_api_version = '1.2'
+    jvm_version = '1.8'
+}
 repositories {
+    jcenter()
     mavenCentral()
+    maven {
+        url "https://jitpack.io"
+        if (System.getenv("JITPACK_TOKEN") == null) {
+            System.err.println("JITPACK_TOKEN was null. Only public repositories will be accessible.")
+        }
+        credentials { username System.getenv("JITPACK_TOKEN") ?: "" }
+    }
 }
 
 dependencies {
+    // Kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:0.23.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.3'
+    // Spring-boot
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.4'
     runtime 'org.springframework.boot:spring-boot-devtools'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.4'
+    implementation 'com.gitlab.klira:open-broker-library:5a2339435cc'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile("org.junit.jupiter:junit-jupiter-api")
     testRuntime("org.junit.jupiter:junit-jupiter-engine")
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        languageVersion = kotlin_api_version
+        apiVersion = kotlin_api_version
+        jvmTarget = jvm_version
+        javaParameters = true   // Useful for reflection.
+    }
+}
+
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
 }
 
 test {
