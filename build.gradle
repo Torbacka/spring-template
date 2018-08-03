@@ -32,8 +32,12 @@ dependencies {
     // Spring-boot
     compile 'org.springframework.boot:spring-boot-starter-web'
     runtime 'org.springframework.boot:spring-boot-devtools'
+    // Jackson
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.4'
-    implementation 'com.gitlab.klira:open-broker-library:5a2339435cc'
+    implementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.9.4'
+    implementation 'com.github.open-broker:open-broker-jvm:d2259dcee'
+
+    compile 'com.squareup.okhttp3:okhttp:3.11.0'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile("org.junit.jupiter:junit-jupiter-api")

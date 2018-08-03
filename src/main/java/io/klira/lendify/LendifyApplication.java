@@ -1,12 +1,12 @@
-package io.klira.springtemplate;
+package io.klira.lendify;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringTemplateApplication {
+public class LendifyApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringTemplateApplication.class, args);
+        SpringApplication.run(LendifyApplication.class, args);
     }
 }
